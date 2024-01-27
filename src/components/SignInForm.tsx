@@ -40,7 +40,7 @@ export default function SignInForm() {
     <FormProvider {...methods}>
       <form
         onSubmit={handleSubmit(login)}
-        className="flex flex-col items-center justify-between p-24 mt-40 gap-8"
+        className="flex flex-col items-center justify-between p-24 mt-16 gap-8"
       >
         <h3 className="text-3xl">Sign In</h3>
         <Input {...register("email")} placeholder="Email" />

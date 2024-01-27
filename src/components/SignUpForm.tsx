@@ -4,7 +4,7 @@ import { Button } from "./Ui/Button";
 import { Input } from "./Ui/Input";
 import { useForm, FormProvider } from "react-hook-form";
 import { useSignUp } from "@clerk/nextjs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -70,7 +70,7 @@ export default function SignUpForm() {
       {isVerifying ? (
         <form
           onSubmit={handleSubmit(handleVerify)}
-          className="flex flex-col items-center justify-between p-24 mt-48 gap-8"
+          className="flex flex-col items-center justify-between p-24 mt-16 gap-8"
         >
           <h3 className="text-3xl">Verification Code</h3>
           <Input {...register("code")} placeholder="Code" />
@@ -80,7 +80,7 @@ export default function SignUpForm() {
       ) : (
         <form
           onSubmit={handleSubmit(handleSignUp)}
-          className="flex flex-col items-center justify-between p-24 mt-36 gap-8"
+          className="flex flex-col items-center justify-between p-24 mt-16 gap-8"
         >
           <h3 className="text-3xl">Sign Up</h3>
           <Input {...register("username")} placeholder="Username" />

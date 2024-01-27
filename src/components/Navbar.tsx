@@ -2,6 +2,7 @@
 import Link from "next/link";
 import SignOut from "./SignOut";
 import { useUser } from "@clerk/nextjs";
+import DashboardDropdown from "./DashboardDropdown";
 
 export default function Navbar() {
   const { isSignedIn, user } = useUser();
@@ -12,10 +13,11 @@ export default function Navbar() {
           <h3 className="text-2xl">Music-Pay</h3>
         </Link>
       </div>
-      <div className="flex flex-row items-center justify-center gap-4 mr-6">
-        <h3 className="text-lg">{user?.username}</h3>
-        {isSignedIn && <SignOut />}
-      </div>
+      {isSignedIn && (
+        <div className="flex flex-row items-center justify-center gap-4 mr-6">
+          <DashboardDropdown username={user.username as string} />
+        </div>
+      )}
     </nav>
   );
 }

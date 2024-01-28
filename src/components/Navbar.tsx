@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import SignOut from "./SignOut";
+import { User } from "lucide-react";
 import { useUser } from "@clerk/nextjs";
 import DashboardDropdown from "./DashboardDropdown";
 
@@ -14,7 +14,8 @@ export default function Navbar() {
         </Link>
       </div>
       {isSignedIn && (
-        <div className="flex flex-row items-center justify-center gap-4 mr-6">
+        <div className="flex flex-row items-start justify-center gap-1 mr-6">
+          <User className="h-6 w-6" />
           <DashboardDropdown username={user.username as string} />
         </div>
       )}

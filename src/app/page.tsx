@@ -1,9 +1,4 @@
-import Navbar from "@/components/Navbar";
-import { currentUser } from "@clerk/nextjs";
-
 export default function Home() {
-  const user = currentUser();
-  console.log(user);
   return (
     <main>
       <div className="flex flex-col items-center justify-between p-24 mt-40">

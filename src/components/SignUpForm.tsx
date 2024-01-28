@@ -58,6 +58,10 @@ export default function SignUpForm() {
         if (setActive) {
           await setActive({ session: completeSignUp.createdSessionId });
           router.push("/");
+
+          fetch("/api/user", {
+            method: "POST",
+          });
         }
       }
     } catch (e) {

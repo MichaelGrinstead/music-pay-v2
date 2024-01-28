@@ -5,7 +5,7 @@ import { useUser } from "@clerk/nextjs";
 import DashboardDropdown from "./DashboardDropdown";
 
 export default function Navbar() {
-  const { isSignedIn, user } = useUser();
+  const { isSignedIn } = useUser();
   return (
     <nav className="flex flex-row items-center justify-between sticky top-0 h-20 ">
       <div className="ml-6">
@@ -16,7 +16,7 @@ export default function Navbar() {
       {isSignedIn && (
         <div className="flex flex-row items-start justify-center gap-1 mr-6">
           <User className="h-6 w-6" />
-          <DashboardDropdown username={user.username as string} />
+          <DashboardDropdown />
         </div>
       )}
     </nav>

@@ -1,6 +1,6 @@
-export async function addNewUser() {
+export async function addNewUser(username: string) {
   try {
-    fetch("/api/user", {
+    fetch(`/api/user/${username}`, {
       method: "POST",
     });
   } catch (e) {

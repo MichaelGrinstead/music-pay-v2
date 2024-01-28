@@ -4,9 +4,11 @@ import { NextRequest, NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
 
-export async function POST() {
+export async function POST(req: NextRequest) {
+  const { searchParams } = new URL(req.nextUrl);
+  const username = searchParams.get("username");
   const { userId } = auth();
-  if (!userId)
+  if (!userId || !username)
     return new NextResponse(JSON.stringify({ message: "Unauthorized" }), {
       status: 401,
     });
@@ -15,6 +17,7 @@ export async function POST() {
     const newUser = await prisma.user.create({
       data: {
         clerkUserId: userId as string,
+        username: username as string,
       },
     });
 
@@ -28,10 +31,11 @@ export async function POST() {
   }
 }
 
-export async function GET() {
-  const { userId } = auth();
+export async function GET(req: NextRequest) {
+  const { searchParams } = new URL(req.nextUrl);
+  const username = searchParams.get("username");
 
-  if (!userId)
+  if (!username)
     return new NextResponse(JSON.stringify({ message: "Unauthorized" }), {
       status: 401,
     });
@@ -39,10 +43,7 @@ export async function GET() {
   try {
     const user = await prisma.user.findUnique({
       where: {
-        clerkUserId: userId as string,
-      },
-      include: {
-        artists: true,
+        username: username,
       },
     });
 

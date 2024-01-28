@@ -29,7 +29,6 @@ export default function SignUpForm() {
     const loginData = getValues();
     try {
       await signUp?.create({
-        username: loginData.username,
         emailAddress: loginData.email,
         password: loginData.password,
       });
@@ -58,7 +57,7 @@ export default function SignUpForm() {
       if (completeSignUp?.status === "complete") {
         if (setActive) {
           await setActive({ session: completeSignUp.createdSessionId });
-          addNewUser();
+          addNewUser(verificationData.username);
 
           router.push("/");
         }

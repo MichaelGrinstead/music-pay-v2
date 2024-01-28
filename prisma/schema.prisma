@@ -13,6 +13,7 @@ datasource db {
 
 model User {
   clerkUserId String @id @unique
+  username String @unique
   about String?
   image String?
   artists Artist[]

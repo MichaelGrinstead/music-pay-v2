@@ -1,6 +1,6 @@
 "use client";
 
-import { useGetUser } from "@/app/hooks/useGetUser";
+import { useGetUser } from "@/hooks/useGetUser";
 import Image from "next/image";
 
 export default function ProfileHeader() {

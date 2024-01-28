@@ -1,5 +1,5 @@
 "use client";
-import { useGetUser } from "@/app/hooks/useGetUser";
+import { useGetUser } from "@/hooks/useGetUser";
 
 export default function ProfileContent() {
   const { userAbout } = useGetUser();

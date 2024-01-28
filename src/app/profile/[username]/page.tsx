@@ -7,7 +7,6 @@ interface ProfilePageProps {
 }
 
 export default function ProfilePage({ params }: ProfilePageProps) {
-  console.log("params", params);
   return (
     <div>
       <Profile />

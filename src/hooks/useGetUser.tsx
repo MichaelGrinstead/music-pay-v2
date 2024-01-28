@@ -1,17 +1,20 @@
 import { useEffect, useState } from "react";
 
 const defaultProfileData = {
+  username: "",
   about: "",
   image: "",
 };
 
-export const useGetUser = (): { userAbout: string; userImage: string } => {
+export const useGetUser = (
+  username: string
+): { username: string; userAbout: string; userImage: string } => {
   const [profileData, setProfileData] = useState(defaultProfileData);
 
   useEffect(() => {
     const getUser = async () => {
       try {
-        const response = await fetch("/api/user", {
+        const response = await fetch(`/api/user/${username}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -31,5 +34,9 @@ export const useGetUser = (): { userAbout: string; userImage: string } => {
     getUser();
   }, []);
 
-  return { userAbout: profileData.about, userImage: profileData.image };
+  return {
+    username,
+    userAbout: profileData.about,
+    userImage: profileData.image,
+  };
 };

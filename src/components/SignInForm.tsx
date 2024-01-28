@@ -13,7 +13,7 @@ export default function SignInForm() {
   const { register, handleSubmit, getValues } = methods;
   const { signIn, setActive } = useSignIn();
 
-  const login = async () => {
+  const handleSignIn = async () => {
     const loginData = getValues();
     try {
       const completeSignIn = await signIn?.create({
@@ -39,7 +39,7 @@ export default function SignInForm() {
   return (
     <FormProvider {...methods}>
       <form
-        onSubmit={handleSubmit(login)}
+        onSubmit={handleSubmit(handleSignIn)}
         className="flex flex-col items-center justify-between p-24 mt-16 gap-8"
       >
         <h3 className="text-3xl">Sign In</h3>

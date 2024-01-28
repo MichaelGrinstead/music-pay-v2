@@ -6,7 +6,7 @@ export default function ProfileContent() {
 
   return (
     <div className="flex flex-col items-center justify-between p-24">
-      <p>{userAbout}</p>
+      {userAbout && <p>{userAbout}</p>}
     </div>
   );
 }

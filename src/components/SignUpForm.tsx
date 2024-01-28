@@ -7,6 +7,7 @@ import { useSignUp } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { addNewUser } from "@/utils/addNewUser";
 
 const defaultValues = {
   username: "",
@@ -45,7 +46,7 @@ export default function SignUpForm() {
 
   const handleVerify = async () => {
     const verificationData = getValues();
-    console.log("verificationData", verificationData);
+
     try {
       const completeSignUp = await signUp?.attemptEmailAddressVerification({
         code: verificationData.code,
@@ -57,15 +58,13 @@ export default function SignUpForm() {
       if (completeSignUp?.status === "complete") {
         if (setActive) {
           await setActive({ session: completeSignUp.createdSessionId });
-          router.push("/");
+          addNewUser();
 
-          fetch("/api/user", {
-            method: "POST",
-          });
+          router.push("/");
         }
       }
     } catch (e) {
-      console.log("Error:", JSON.stringify(e, null, 2));
+      console.error("Error:", JSON.stringify(e, null, 2));
     }
   };
 

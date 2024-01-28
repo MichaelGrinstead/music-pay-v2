@@ -30,6 +30,7 @@ export async function POST() {
 
 export async function GET() {
   const { userId } = auth();
+
   if (!userId)
     return new NextResponse(JSON.stringify({ message: "Unauthorized" }), {
       status: 401,
@@ -44,6 +45,7 @@ export async function GET() {
         artists: true,
       },
     });
+
     return new NextResponse(JSON.stringify(user), { status: 201 });
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {

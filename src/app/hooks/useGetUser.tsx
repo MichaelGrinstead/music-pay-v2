@@ -22,7 +22,7 @@ export const useGetUser = (): { userAbout: string; userImage: string } => {
         }
 
         const data = await response.json();
-        setProfileData(data);
+        if (data) setProfileData(data);
       } catch (e) {
         console.error(e);
       }
@@ -30,8 +30,6 @@ export const useGetUser = (): { userAbout: string; userImage: string } => {
 
     getUser();
   }, []);
-
-  console.log("hook profileData", profileData);
 
   return { userAbout: profileData.about, userImage: profileData.image };
 };

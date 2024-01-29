@@ -9,7 +9,7 @@ interface ProfilePageProps {
 export default function ProfilePage({ params }: ProfilePageProps) {
   return (
     <div>
-      <Profile />
+      <Profile username={params.username} />
     </div>
   );
 }

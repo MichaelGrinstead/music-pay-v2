@@ -12,12 +12,14 @@ import { IoIosArrowDown } from "react-icons/io";
 import { LogOut, User, Home } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useUser } from "@clerk/nextjs";
+import { useGetUser } from "@/hooks/useGetUser";
 
 export default function DashboardDropdown({}) {
   const pathname = usePathname();
-  const { user } = useUser();
   const isHome = pathname === "/";
+  const { username } = useGetUser();
+
+  console.log("dropdown name", username);
 
   const dropdown_menu_item = "justify-between hover:bg-zinc-900 gap-3 px-3 ";
   return (
@@ -26,9 +28,7 @@ export default function DashboardDropdown({}) {
         <IoIosArrowDown size={32} />
       </DropdownMenuTrigger>
       <DropdownMenuContent className="flex flex-col items-center justify-center bg-black border border-zinc-800 w-40 mr-8 ">
-        <DropdownMenuLabel className="text-xl">
-          {user?.username}
-        </DropdownMenuLabel>
+        <DropdownMenuLabel className="text-xl">{username}</DropdownMenuLabel>
         <DropdownMenuSeparator className="bg-zinc-800 w-full" />
         <DropdownMenuGroup className="w-full">
           {!isHome && (
@@ -40,7 +40,7 @@ export default function DashboardDropdown({}) {
 
           <DropdownMenuItem className={dropdown_menu_item}>
             <User className="h-4 w-4 mr-2" />
-            <Link href={`/profile/${user?.username}`}>Profile</Link>
+            <Link href={`/profile/${username}`}>Profile</Link>
           </DropdownMenuItem>
 
           <DropdownMenuItem className={dropdown_menu_item}>

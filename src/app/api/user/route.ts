@@ -32,20 +32,27 @@ export async function POST(req: NextRequest) {
 }
 
 export async function GET(req: NextRequest) {
+  const { userId } = auth();
   const { searchParams } = new URL(req.nextUrl);
   const username = searchParams.get("username");
 
-  if (!username)
-    return new NextResponse(JSON.stringify({ message: "Unauthorized" }), {
-      status: 401,
-    });
-
   try {
-    const user = await prisma.user.findUnique({
-      where: {
-        username: username,
-      },
-    });
+    let user;
+    if (username) {
+      user = await prisma.user.findUnique({
+        where: {
+          username: username,
+        },
+      });
+    } else if (userId) {
+      console.log("GET user id used");
+      user = await prisma.user.findUnique({
+        where: {
+          clerkUserId: userId as string,
+        },
+      });
+      console.log(user);
+    }
 
     return new NextResponse(JSON.stringify(user), { status: 201 });
   } catch (e) {

@@ -9,7 +9,14 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { addNewUser } from "@/utils/addNewUser";
 
-const defaultValues = {
+interface SignUpData {
+  username: string;
+  email: string;
+  password: string;
+  code: string;
+}
+
+const defaultValues: SignUpData = {
   username: "",
   email: "",
   password: "",

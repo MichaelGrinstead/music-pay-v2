@@ -1,11 +1,14 @@
 import ProfileContent from "./ProfileContent";
 import ProfileHeader from "./ProfileHeader";
 
-export default function Profile() {
+interface ProfileProps {
+  username: string;
+}
+export default function Profile({ username }: ProfileProps) {
   return (
     <main className="container">
-      <ProfileHeader />
-      <ProfileContent />
+      <ProfileHeader username={username} />
+      <ProfileContent username={username} />
     </main>
   );
 }

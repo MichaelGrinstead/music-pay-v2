@@ -1,8 +1,11 @@
 export async function addNewUser(username: string) {
   try {
-    fetch(`/api/user/${username}`, {
+    const response = await fetch(`/api/user?username=${username}`, {
       method: "POST",
     });
+    if (response.ok) {
+      return response.json();
+    }
   } catch (e) {
     console.error(e, "error adding new user");
   }

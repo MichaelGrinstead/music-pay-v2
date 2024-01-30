@@ -1,3 +1,4 @@
+import { PutBlobResult } from "@vercel/blob";
 import { ChangeEvent, SyntheticEvent } from "react";
 
 export async function uploadImage(
@@ -20,7 +21,8 @@ export async function uploadImage(
 
       if (response.ok) {
         console.log("result", response);
-        return response.json();
+        const blob = (await response.json()) as PutBlobResult;
+        return blob.url;
       }
     } catch (e) {
       console.error(e, "error uploading image");

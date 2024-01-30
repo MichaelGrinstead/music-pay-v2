@@ -6,7 +6,7 @@ interface ProfileProps {
 }
 export default function Profile({ username }: ProfileProps) {
   return (
-    <main className="container">
+    <main>
       <ProfileHeader username={username} />
       <ProfileContent username={username} />
     </main>

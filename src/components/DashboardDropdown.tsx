@@ -19,8 +19,6 @@ export default function DashboardDropdown({}) {
   const isHome = pathname === "/";
   const { username } = useGetUser();
 
-  console.log("dropdown name", username);
-
   const dropdown_menu_item = "justify-between hover:bg-zinc-900 gap-3 px-3 ";
   return (
     <DropdownMenu>

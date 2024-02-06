@@ -1,19 +1,14 @@
+import { UserData } from "@/types";
 import { useEffect, useState } from "react";
 
-interface ProfileData {
-  username: string;
-  about: string;
-  image: string;
-}
-
-const defaultProfileData: ProfileData = {
-  username: "",
+const defaultUserData: UserData = {
   about: "",
-  image: "",
+  avatar: "",
+  banner: "",
 };
 
-export const useGetUser = (username?: string): ProfileData => {
-  const [profileData, setProfileData] = useState(defaultProfileData);
+export const useGetUser = (username?: string): UserData => {
+  const [userData, setUserData] = useState(defaultUserData);
 
   const route = username ? `/api/user?username=${username}` : "/api/user";
 
@@ -31,8 +26,8 @@ export const useGetUser = (username?: string): ProfileData => {
         }
 
         const data = await response.json();
-        console.log("useGetUser", data);
-        if (data) setProfileData(data);
+
+        if (data) setUserData(data);
       } catch (e) {
         console.error(e);
       }
@@ -42,8 +37,8 @@ export const useGetUser = (username?: string): ProfileData => {
   }, []);
 
   return {
-    username: profileData.username,
-    about: profileData.about,
-    image: profileData.image,
+    about: userData.about || "",
+    avatar: userData.avatar || "",
+    banner: userData.banner || "",
   };
 };

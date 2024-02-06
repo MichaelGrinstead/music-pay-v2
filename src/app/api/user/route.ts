@@ -96,3 +96,26 @@ export async function PUT(req: NextRequest) {
     return new NextResponse(JSON.stringify(e), { status: 500 });
   }
 }
+
+export async function DELETE() {
+  const { userId } = auth();
+  if (!userId)
+    return new NextResponse(JSON.stringify({ message: "Unauthorized" }), {
+      status: 401,
+    });
+
+  try {
+    const deletedUser = await prisma.user.delete({
+      where: {
+        clerkUserId: userId as string,
+      },
+    });
+
+    return new NextResponse(JSON.stringify(deletedUser), { status: 201 });
+  } catch (e) {
+    if (e instanceof Prisma.PrismaClientKnownRequestError) {
+      return new NextResponse(JSON.stringify(e.message), { status: 500 });
+    }
+    return new NextResponse(JSON.stringify(e), { status: 500 });
+  }
+}

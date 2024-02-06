@@ -33,11 +33,12 @@ export default function SignUpForm() {
   const [isVerifying, setIsVerifying] = useState(false);
 
   const handleSignUp = async () => {
-    const loginData = getValues();
+    const signUpData = getValues();
     try {
       await signUp?.create({
-        emailAddress: loginData.email,
-        password: loginData.password,
+        username: signUpData.username,
+        emailAddress: signUpData.email,
+        password: signUpData.password,
       });
 
       await signUp?.prepareEmailAddressVerification({
@@ -51,11 +52,11 @@ export default function SignUpForm() {
   };
 
   const handleVerify = async () => {
-    const verificationData = getValues();
+    const signUpData = getValues();
 
     try {
       const completeSignUp = await signUp?.attemptEmailAddressVerification({
-        code: verificationData.code,
+        code: signUpData.code,
       });
       if (completeSignUp?.status !== "complete") {
         throw new Error("Login not complete");
@@ -64,7 +65,7 @@ export default function SignUpForm() {
       if (completeSignUp?.status === "complete") {
         if (setActive) {
           await setActive({ session: completeSignUp.createdSessionId });
-          addNewUser(verificationData.username);
+          addNewUser(signUpData.username);
 
           router.push("/");
         }

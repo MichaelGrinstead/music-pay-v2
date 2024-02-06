@@ -15,7 +15,8 @@ model User {
   clerkUserId String @id @unique
   username String @unique
   about String?
-  image String?
+  avatarImage String?
+  bannerImage String?
   artists Artist[]
 }
 

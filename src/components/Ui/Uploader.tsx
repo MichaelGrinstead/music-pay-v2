@@ -1,10 +1,12 @@
-import { ChangeEvent, SyntheticEvent } from "react";
+import { ChangeEvent, SyntheticEvent, useRef } from "react";
 import { FiUpload } from "react-icons/fi";
 import LoadingSpinner from "./LoadingSpinner";
+import { Tooltip } from "./Tooltip";
+import CameraIcon from "./Icons/CameraIcon";
 
 interface props {
   className?: string;
-  className_span?: string;
+  className_tooltip?: string;
   uploadFunction: (
     e: SyntheticEvent | ChangeEvent<HTMLInputElement>
   ) =>
@@ -13,7 +15,7 @@ interface props {
   loadingState: boolean;
   fileName?: string;
   innerText?: string;
-  spanText?: string;
+  tooltipContent?: string;
   errorMessage?: string;
   accept?: string;
   multiple?: boolean;
@@ -21,14 +23,15 @@ interface props {
 
 export default function Uploader({
   className,
-  className_span,
+  className_tooltip,
   uploadFunction,
   loadingState,
   fileName,
   innerText,
-  spanText,
+  tooltipContent,
   errorMessage,
 }: props) {
+  const fileInput = useRef<HTMLInputElement>(null);
   return (
     <label
       className={className}
@@ -42,27 +45,29 @@ export default function Uploader({
           {fileName ? fileName : innerText}
         </h3>
       )}
-      <div className="flex flex-col items-center justify-center h-10 w-10">
-        <span
-          className={`absolute flex flex-col top-full text-center mt-2 hidden group-hover:block text-sm ${className_span}`}
-        >
-          {spanText}
-        </span>
-        {loadingState ? (
-          <LoadingSpinner />
-        ) : (
-          <div>
-            <FiUpload className="h-6 w-6" />
+      <Tooltip content={tooltipContent} className={className_tooltip}>
+        <div className="flex flex-col items-center justify-center h-10 w-10">
+          {loadingState ? (
+            <LoadingSpinner />
+          ) : (
+            <div>
+              <CameraIcon
+                className="border-none bg-transparent hover:bg-transparent"
+                size={20}
+                onClick={() => fileInput.current?.click()}
+              />
 
-            <input
-              type="file"
-              className="hidden"
-              onChange={uploadFunction}
-              accept=".jpg, .jpeg, image/jpeg, .png, image/png"
-            />
-          </div>
-        )}
-      </div>
+              <input
+                type="file"
+                className="hidden"
+                onChange={uploadFunction}
+                accept=".jpg, .jpeg, image/jpeg, .png, image/png"
+                ref={fileInput}
+              />
+            </div>
+          )}
+        </div>
+      </Tooltip>
     </label>
   );
 }

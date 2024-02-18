@@ -3,19 +3,18 @@ import { Button } from "../Button";
 
 interface CameraIconProps {
   className?: string;
-  className_span?: string;
-  onClick: () => void;
+  size?: number;
+  onClick?: () => void;
 }
 
 export default function CameraIcon({
   className,
-  className_span,
+  size,
   onClick,
 }: CameraIconProps) {
   return (
     <Button className={className} onClick={onClick}>
-      <Camera size={20} />
-      <span className={className_span}>edit</span>
+      <Camera size={size} />
     </Button>
   );
 }

@@ -1,24 +1,10 @@
-export const updateUserData = async ({
-  about,
-  avatar,
-  banner,
-}: {
-  about?: string;
-  avatar?: string;
-  banner?: string;
-}) => {
-  const body = about
-    ? JSON.stringify({ about })
-    : avatar
-    ? JSON.stringify({ avatar })
-    : banner
-    ? JSON.stringify({ banner })
-    : null;
+import { UserData } from "@/types";
 
+export const updateUserData = async (data: UserData) => {
   try {
     const response = await fetch(`/api/user`, {
       method: "PUT",
-      body,
+      body: JSON.stringify(data),
     });
     if (response.ok) {
       return response.json();

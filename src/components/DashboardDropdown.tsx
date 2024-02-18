@@ -13,12 +13,14 @@ import { LogOut, User, Home } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
+import { useGetUser } from "@/hooks/useGetUser";
 
 export default function DashboardDropdown({}) {
   const pathname = usePathname();
   const isHome = pathname === "/";
   const { user } = useUser();
-  const username = user?.username;
+  const { username, usernameLowercase } = useGetUser();
+  const name = user?.username === usernameLowercase ? username : "";
 
   const dropdown_menu_item = "justify-between hover:bg-zinc-900 gap-3 px-3 ";
   return (
@@ -28,7 +30,7 @@ export default function DashboardDropdown({}) {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="flex flex-col items-center justify-center bg-black border border-zinc-800 w-40 mr-8 ">
         <DropdownMenuLabel className="text-xl truncate max-w-36">
-          {username}
+          {name}
         </DropdownMenuLabel>
         <DropdownMenuSeparator className="bg-zinc-800 w-full" />
         <DropdownMenuGroup className="w-full">

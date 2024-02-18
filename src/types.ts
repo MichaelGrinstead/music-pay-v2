@@ -1,5 +1,7 @@
 export interface UserData {
+  username: string;
+  usernameLowercase: string;
   about: string;
-  avatar: string;
-  banner: string;
+  avatarImage: string;
+  bannerImage: string;
 }

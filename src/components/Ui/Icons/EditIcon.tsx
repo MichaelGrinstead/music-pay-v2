@@ -3,13 +3,12 @@ import { Button } from "../Button";
 
 interface EditIconProps {
   className?: string;
-  className_span?: string;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 export default function EditIcon({
   className,
-  className_span,
+
   onClick,
 }: EditIconProps) {
   return (

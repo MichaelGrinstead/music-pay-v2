@@ -7,6 +7,7 @@ const prisma = new PrismaClient();
 export async function POST(req: NextRequest) {
   const { searchParams } = new URL(req.nextUrl);
   const username = searchParams.get("username");
+  const usernameLowercase = username?.toLowerCase();
   const { userId } = auth();
   if (!userId || !username)
     return new NextResponse(JSON.stringify({ message: "Unauthorized" }), {
@@ -18,6 +19,7 @@ export async function POST(req: NextRequest) {
       data: {
         clerkUserId: userId as string,
         username: username as string,
+        usernameLowercase: usernameLowercase as string,
       },
     });
 
@@ -41,19 +43,18 @@ export async function GET(req: NextRequest) {
     if (username) {
       user = await prisma.user.findUnique({
         where: {
-          username: username,
+          usernameLowercase: username.toLowerCase(),
         },
       });
     } else if (userId) {
-      console.log("GET user id used");
       user = await prisma.user.findUnique({
         where: {
           clerkUserId: userId as string,
         },
       });
-      console.log(user);
     }
 
+    console.log("returned user", user);
     return new NextResponse(JSON.stringify(user), { status: 201 });
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
@@ -70,12 +71,18 @@ export async function PUT(req: NextRequest) {
       status: 401,
     });
   const body = await req.json();
-  const { about, image } = body;
+  console.log("PUT body", body);
+  const { about, avatar, banner } = body;
 
-  const updateData: { about?: string; image?: string } = {};
+  const updateData: {
+    about?: string;
+    avatarImage?: string;
+    bannerImage?: string;
+  } = {};
 
   if (about) updateData.about = about;
-  if (image) updateData.image = image;
+  if (avatar) updateData.avatarImage = avatar;
+  if (banner) updateData.bannerImage = banner;
 
   if (Object.keys(updateData).length === 0)
     return new NextResponse(JSON.stringify({ message: "Bad Request" }));

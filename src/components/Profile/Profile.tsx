@@ -6,62 +6,78 @@ import { FormProvider, useForm } from "react-hook-form";
 import { UserData } from "@/types";
 import { updateUserData } from "@/utils/updateUserData";
 import { useGetUser } from "@/hooks/useGetUser";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { Button } from "../Ui/Button";
 
 interface ProfileProps {
   username: string;
 }
 
 export default function Profile({ username }: ProfileProps) {
+  const [isEditMode, setIsEditMode] = useState(false);
   const userData = useGetUser(username);
 
   const defaultValues = userData
     ? {
         about: userData.about,
-        avatar: userData.avatar,
-        banner: userData.banner,
+        avatarImage: userData.avatarImage,
+        bannerImage: userData.bannerImage,
       }
-    : { about: "", avatar: "", banner: "" };
+    : { about: "", avatarImage: "", bannerImage: "" };
 
   const methods = useForm<UserData>({
     defaultValues,
   });
 
-  const { getValues } = methods;
+  const { getValues, watch } = methods;
+
+  console.log("watch", watch());
 
   const { user } = useUser();
-  const isOwnProfile = user?.username?.toLowerCase() === username.toLowerCase();
+  const isOwnProfile = user?.username === userData.usernameLowercase;
 
   const updateProfile = async () => {
     const data = getValues();
-    if (data.about) {
-      const result = await updateUserData({ about: data.about });
-      console.log("result", result);
-    } else if (data.avatar) {
-      const result = await updateUserData({ avatar: data.avatar });
-      console.log("result", result);
-    } else if (data.banner) {
-      const result = await updateUserData({ banner: data.banner });
-      console.log("result", result);
-    }
+    updateUserData(data);
   };
 
   useEffect(() => {
     methods.reset(defaultValues);
-  });
+  }, []);
 
   return (
     <FormProvider {...methods}>
-      <div>
+      <div className="relative flex flex-col gap-16">
+        {isOwnProfile &&
+          (!isEditMode ? (
+            <Button
+              className="absolute right-1 top-64 border-none bg-zinc-900 hover:bg-zinc-800 z-10 rounded-xl"
+              onClick={() => setIsEditMode(!isEditMode)}
+            >
+              Edit Profile
+            </Button>
+          ) : (
+            <Button
+              className="absolute right-1 border-none bg-zinc-800 hover:bg-zinc-500 top-64 z-10"
+              onClick={() => {
+                setIsEditMode(!isEditMode);
+                updateProfile();
+              }}
+            >
+              Save
+            </Button>
+          ))}
         <ProfileHeader
           username={username}
           isOwnProfile={isOwnProfile}
           updateProfile={updateProfile}
+          isEditMode={isEditMode}
         />
         <ProfileContent
           username={username}
           isOwnProfile={isOwnProfile}
           updateProfile={updateProfile}
+          isEditMode={isEditMode}
         />
       </div>
     </FormProvider>

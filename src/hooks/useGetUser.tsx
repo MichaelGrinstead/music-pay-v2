@@ -2,9 +2,11 @@ import { UserData } from "@/types";
 import { useEffect, useState } from "react";
 
 const defaultUserData: UserData = {
+  username: "",
+  usernameLowercase: "",
   about: "",
-  avatar: "",
-  banner: "",
+  avatarImage: "",
+  bannerImage: "",
 };
 
 export const useGetUser = (username?: string): UserData => {
@@ -26,6 +28,7 @@ export const useGetUser = (username?: string): UserData => {
         }
 
         const data = await response.json();
+        console.log("data", data);
 
         if (data) setUserData(data);
       } catch (e) {
@@ -37,8 +40,10 @@ export const useGetUser = (username?: string): UserData => {
   }, []);
 
   return {
+    username: userData.username || "",
+    usernameLowercase: userData.usernameLowercase || "",
     about: userData.about || "",
-    avatar: userData.avatar || "",
-    banner: userData.banner || "",
+    avatarImage: userData.avatarImage || "",
+    bannerImage: userData.bannerImage || "",
   };
 };

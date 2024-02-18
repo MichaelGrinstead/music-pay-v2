@@ -14,6 +14,7 @@ datasource db {
 model User {
   clerkUserId String @id @unique
   username String @unique
+  usernameLowercase String @unique
   about String?
   avatarImage String?
   bannerImage String?

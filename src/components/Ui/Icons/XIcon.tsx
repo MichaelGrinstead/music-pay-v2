@@ -1,21 +1,18 @@
-import { XCircleIcon } from "lucide-react";
+import { X } from "lucide-react";
 import { Button } from "../Button";
+import { Tooltip } from "../Tooltip";
 
 interface XIconProps {
   className?: string;
-  className_span?: string;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
-export default function XIcon({
-  className,
-  className_span,
-  onClick,
-}: XIconProps) {
+export default function XIcon({ className, onClick }: XIconProps) {
   return (
-    <Button className={className} onClick={onClick}>
-      <XCircleIcon size={20} />
-      <span className={className_span}>close</span>
-    </Button>
+    <Tooltip content={"Remove banner"} className="mt-4">
+      <Button className={className} onClick={onClick}>
+        <X size={20} />
+      </Button>
+    </Tooltip>
   );
 }

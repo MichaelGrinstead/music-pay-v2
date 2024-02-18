@@ -1,24 +1,21 @@
 "use client";
 import { useGetUser } from "@/hooks/useGetUser";
-import { useState } from "react";
 import { EditProfileAbout } from "./EditProfile";
-import EditIcon from "../Ui/Icons/EditIcon";
-import { SaveIcon } from "lucide-react";
 
 interface ProfileContentProps {
   username: string;
   isOwnProfile?: boolean;
   updateProfile: () => void;
+  isEditMode: boolean;
 }
 
 export default function ProfileContent({
   username,
   isOwnProfile,
-  updateProfile,
+  isEditMode,
 }: ProfileContentProps) {
   const { about } = useGetUser(username);
-
-  const [isEditingAbout, setIsEditingAbout] = useState(false);
+  console.log(about);
 
   return (
     <div className="relative flex flex-col items-center justify-between p-16 gap-6">
@@ -26,27 +23,12 @@ export default function ProfileContent({
         {username}
       </h3>
 
-      <div className="relative">
-        {isEditingAbout ? (
+      <div className="relative w-full flex flex-col justify-center items-center">
+        {isEditMode ? (
           isOwnProfile && <EditProfileAbout />
         ) : (
           <p className="mx-12 px-2">{about}</p>
         )}
-        {isEditingAbout
-          ? isOwnProfile && (
-              <SaveIcon
-                className="absolute right-6 top-0 border-none cursor-pointer hover:bg-zinc-800 h-6 w-6 p-1 rounded-md"
-                onClick={() => {
-                  setIsEditingAbout(!isEditingAbout), updateProfile();
-                }}
-              />
-            )
-          : isOwnProfile && (
-              <EditIcon
-                className="absolute right-6 top-0 p-0 border-none h-6 w-6 p-1"
-                onClick={() => setIsEditingAbout(!isEditingAbout)}
-              />
-            )}
       </div>
     </div>
   );

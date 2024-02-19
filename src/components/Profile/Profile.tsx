@@ -6,7 +6,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { UserData } from "@/types";
 import { updateUserData } from "@/utils/updateUserData";
 import { useGetUser } from "@/hooks/useGetUser";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Button } from "../Ui/Button";
 
 interface ProfileProps {
@@ -17,21 +17,21 @@ export default function Profile({ username }: ProfileProps) {
   const [isEditMode, setIsEditMode] = useState(false);
   const userData = useGetUser(username);
 
-  const defaultValues = userData
-    ? {
-        about: userData.about,
-        avatarImage: userData.avatarImage,
-        bannerImage: userData.bannerImage,
-      }
-    : { about: "", avatarImage: "", bannerImage: "" };
+  const defaultValues = useMemo(() => {
+    return userData
+      ? {
+          about: userData.about,
+          avatarImage: userData.avatarImage,
+          bannerImage: userData.bannerImage,
+        }
+      : { about: "", avatarImage: "", bannerImage: "" };
+  }, [userData]);
 
   const methods = useForm<UserData>({
     defaultValues,
   });
 
   const { getValues, watch } = methods;
-
-  console.log("watch", watch());
 
   const { user } = useUser();
   const isOwnProfile = user?.username === userData.usernameLowercase;
@@ -43,7 +43,7 @@ export default function Profile({ username }: ProfileProps) {
 
   useEffect(() => {
     methods.reset(defaultValues);
-  }, []);
+  }, [userData, defaultValues]);
 
   return (
     <FormProvider {...methods}>

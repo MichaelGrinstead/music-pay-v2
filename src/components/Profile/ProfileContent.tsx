@@ -15,7 +15,6 @@ export default function ProfileContent({
   isEditMode,
 }: ProfileContentProps) {
   const { about } = useGetUser(username);
-  console.log(about);
 
   return (
     <div className="relative flex flex-col items-center justify-between p-16 gap-6">

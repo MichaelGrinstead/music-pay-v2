@@ -19,55 +19,33 @@ export function EditProfileBanner({ username, handleUploadImage }: EditProps) {
   const { setValue } = useFormContext();
   const { bannerImage } = useGetUser(username);
   return (
-    <div className="relative flex flex-col items-center w-full h-full bg-zinc-950 rounded-md border-zinc-700 ">
-      <div className="z-10 flex flex-row items-center justify-center gap-2">
-        <Uploader
-          className="flex flex-col items-center justify-center w-12 h-12 border border-zinc-700 rounded-full hover:bg-zinc-800 bg-zinc-950 cursor-pointer mt-4 opacity-90"
-          uploadFunction={(e) => handleUploadImage(e, "banner")}
-          loadingState={false}
-          tooltipContent="Add banner"
-          className_tooltip="mt-2"
-        />
-        {bannerImage && (
-          <XIcon
-            className="flex flex-col items-center justify-center w-12 h-12 border border-zinc-700 rounded-full hover:bg-zinc-800 bg-zinc-950 cursor-pointer mt-4 opacity-90"
-            onClick={() => setValue("banner", "")}
-          />
-        )}
-      </div>
+    <div className="z-10 flex flex-row items-center justify-center gap-2 mb-32">
+      <Uploader
+        className="flex flex-col items-center justify-center w-12 h-12 border border-zinc-700 rounded-full hover:bg-zinc-800 bg-zinc-950 cursor-pointer  opacity-90"
+        uploadFunction={(e) => handleUploadImage(e, "banner")}
+        loadingState={false}
+        tooltipContent="Add banner"
+        className_tooltip="mt-2"
+      />
       {bannerImage && (
-        <Image
-          className="rounded-md"
-          src={bannerImage}
-          alt=""
-          fill={true}
-          objectFit="cover"
+        <XIcon
+          className="flex flex-col items-center justify-center w-12 h-12 border border-zinc-700 rounded-full hover:bg-zinc-800 bg-zinc-950 cursor-pointer  opacity-90"
+          onClick={() => setValue("banner", "")}
         />
       )}
     </div>
   );
 }
 
-export function EditProfileAvatar({ username, handleUploadImage }: EditProps) {
-  const { avatarImage } = useGetUser(username);
+export function EditProfileAvatar({ handleUploadImage }: EditProps) {
   return (
-    <div className="w-[250px] h-[250px] border-2 border-zinc-800 rounded-full flex flex-col bg-zinc-950 items-center justify-center">
-      <Uploader
-        className="flex flex-col items-center justify-center w-12 h-12 rounded-full hover:bg-zinc-800 bg-zinc-950 cursor-pointer z-10 opacity-90"
-        uploadFunction={(e) => handleUploadImage(e, "avatar")}
-        loadingState={false}
-        tooltipContent="Add image"
-        className_tooltip="mt-2"
-      />
-      {avatarImage && (
-        <Image
-          className="rounded-full object-cover"
-          src={avatarImage}
-          alt=""
-          fill={true}
-        />
-      )}
-    </div>
+    <Uploader
+      className="absolute top-[101px] left-[101px] flex flex-col items-center justify-center w-12 h-12 rounded-full hover:bg-zinc-800 bg-zinc-950 cursor-pointer z-10 opacity-90"
+      uploadFunction={(e) => handleUploadImage(e, "avatar")}
+      loadingState={false}
+      tooltipContent="Add image"
+      className_tooltip="mt-2"
+    />
   );
 }
 

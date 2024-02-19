@@ -1,5 +1,5 @@
 import { UserData } from "@/types";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 const defaultUserData: UserData = {
   username: "",
@@ -28,22 +28,31 @@ export const useGetUser = (username?: string): UserData => {
         }
 
         const data = await response.json();
-        console.log("data", data);
 
-        if (data) setUserData(data);
+        if (
+          data.username !== userData.username &&
+          data.usernameLowercase !== userData.usernameLowercase &&
+          data.about !== userData.about &&
+          data.avatarImage !== userData.avatarImage &&
+          data.bannerImage !== userData.bannerImage
+        ) {
+          setUserData(data);
+        }
       } catch (e) {
         console.error(e);
       }
     };
 
     getUser();
-  }, []);
+  }, [username]);
 
-  return {
-    username: userData.username || "",
-    usernameLowercase: userData.usernameLowercase || "",
-    about: userData.about || "",
-    avatarImage: userData.avatarImage || "",
-    bannerImage: userData.bannerImage || "",
-  };
+  return useMemo(() => {
+    return {
+      username: userData.username || "",
+      usernameLowercase: userData.usernameLowercase || "",
+      about: userData.about || "",
+      avatarImage: userData.avatarImage || "",
+      bannerImage: userData.bannerImage || "",
+    };
+  }, [userData]);
 };

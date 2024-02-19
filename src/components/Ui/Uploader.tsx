@@ -1,5 +1,4 @@
 import { ChangeEvent, SyntheticEvent, useRef } from "react";
-import { FiUpload } from "react-icons/fi";
 import LoadingSpinner from "./LoadingSpinner";
 import { Tooltip } from "./Tooltip";
 import CameraIcon from "./Icons/CameraIcon";

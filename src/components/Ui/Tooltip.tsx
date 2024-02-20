@@ -37,7 +37,7 @@ export const Tooltip = ({ content, children, className }: TooltipProps) => {
   return (
     <TooltipProvider>
       <TooltipRoot>
-        <TooltipTrigger>{children}</TooltipTrigger>
+        <TooltipTrigger asChild>{children}</TooltipTrigger>
         <TooltipContent
           side="bottom"
           className={cn("bg-zinc-800 text-white", className)}

@@ -1,5 +1,5 @@
 import { ChangeEvent, SyntheticEvent, useRef } from "react";
-import LoadingSpinner from "./LoadingSpinner";
+import { LoadingSpinner } from "./LoadingSpinner";
 import { Tooltip } from "./Tooltip";
 import CameraIcon from "./Icons/CameraIcon";
 

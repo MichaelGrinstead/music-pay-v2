@@ -7,8 +7,8 @@ import { useSignIn } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useState } from "react";
-import ShowPassword from "./Ui/ShowPassword";
 import { LoadingSpinner } from "./Ui/LoadingSpinner";
+import PasswordInput from "./Ui/PasswordInput";
 
 export default function SignInForm() {
   const router = useRouter();
@@ -52,17 +52,10 @@ export default function SignInForm() {
       >
         <h3 className="text-3xl">Sign In</h3>
         <Input {...register("email")} placeholder="Email" />
-        <div className="flex flex-row relative">
-          <Input
-            {...register("password")}
-            placeholder="Password"
-            type={!isShowPassword ? "password" : "text"}
-          />
-          <ShowPassword
-            isShowPassword={isShowPassword}
-            setIsShowPassword={setIsShowPassword}
-          />
-        </div>
+        <PasswordInput
+          isShowPassword={isShowPassword}
+          setIsShowPassword={setIsShowPassword}
+        />
         <Button variant="defaultMedium">
           {" "}
           {isLoading ? <LoadingSpinner /> : "Sign In"}

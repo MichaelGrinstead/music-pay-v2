@@ -8,6 +8,8 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { addNewUser } from "@/utils/addNewUser";
+import PasswordInput from "./Ui/PasswordInput";
+import { LoadingSpinner } from "./Ui/LoadingSpinner";
 
 interface SignUpData {
   username: string;
@@ -31,6 +33,8 @@ export default function SignUpForm() {
   const { register, handleSubmit, getValues } = methods;
   const { signUp, setActive } = useSignUp();
   const [isVerifying, setIsVerifying] = useState(false);
+  const [isShowPassword, setIsShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSignUp = async () => {
     const signUpData = getValues();
@@ -52,6 +56,7 @@ export default function SignUpForm() {
   };
 
   const handleVerify = async () => {
+    setIsLoading(true);
     const signUpData = getValues();
 
     try {
@@ -59,6 +64,7 @@ export default function SignUpForm() {
         code: signUpData.code,
       });
       if (completeSignUp?.status !== "complete") {
+        setIsLoading(false);
         throw new Error("Login not complete");
       }
 
@@ -66,7 +72,7 @@ export default function SignUpForm() {
         if (setActive) {
           await setActive({ session: completeSignUp.createdSessionId });
           addNewUser(signUpData.username);
-
+          setIsLoading(false);
           router.push("/");
         }
       }
@@ -85,7 +91,9 @@ export default function SignUpForm() {
           <h3 className="text-3xl">Verification Code</h3>
           <Input {...register("code")} placeholder="Code" />
           <h3 className="text-gray-500">Enter the code sent to your email</h3>
-          <Button variant="defaultMedium">Complete</Button>
+          <Button variant="defaultMedium">
+            {isLoading ? <LoadingSpinner /> : "Complete"}
+          </Button>
         </form>
       ) : (
         <form
@@ -95,10 +103,9 @@ export default function SignUpForm() {
           <h3 className="text-3xl">Sign Up</h3>
           <Input {...register("username")} placeholder="Username" />
           <Input {...register("email")} placeholder="Email" />
-          <Input
-            {...register("password")}
-            placeholder="Password"
-            type="password"
+          <PasswordInput
+            isShowPassword={isShowPassword}
+            setIsShowPassword={setIsShowPassword}
           />
           <Button variant="defaultMedium">Sign Up</Button>
           <div className="flex flex-col items-center gap-2 text-gray-500">

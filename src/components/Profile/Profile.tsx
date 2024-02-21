@@ -31,13 +31,14 @@ export default function Profile({ username }: ProfileProps) {
     defaultValues,
   });
 
-  const { getValues, watch } = methods;
+  const { getValues } = methods;
 
   const { user } = useUser();
   const isOwnProfile = user?.username === userData.usernameLowercase;
 
   const updateProfile = async () => {
     const data = getValues();
+
     updateUserData(data);
   };
 

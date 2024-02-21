@@ -20,7 +20,6 @@ export async function uploadImage(
       });
 
       if (response.ok) {
-        console.log("result", response);
         const blob = (await response.json()) as PutBlobResult;
         return blob.url;
       }

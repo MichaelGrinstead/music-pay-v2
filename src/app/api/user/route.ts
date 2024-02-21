@@ -54,7 +54,6 @@ export async function GET(req: NextRequest) {
       });
     }
 
-    console.log("returned user", user);
     return new NextResponse(JSON.stringify(user), { status: 201 });
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
@@ -71,8 +70,7 @@ export async function PUT(req: NextRequest) {
       status: 401,
     });
   const body = await req.json();
-  console.log("PUT body", body);
-  const { about, avatar, banner } = body;
+  const { about, avatarImage, bannerImage } = body;
 
   const updateData: {
     about?: string;
@@ -81,8 +79,8 @@ export async function PUT(req: NextRequest) {
   } = {};
 
   if (about) updateData.about = about;
-  if (avatar) updateData.avatarImage = avatar;
-  if (banner) updateData.bannerImage = banner;
+  if (avatarImage) updateData.avatarImage = avatarImage;
+  if (bannerImage) updateData.bannerImage = bannerImage;
 
   if (Object.keys(updateData).length === 0)
     return new NextResponse(JSON.stringify({ message: "Bad Request" }));

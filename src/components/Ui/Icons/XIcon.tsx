@@ -1,18 +1,23 @@
 import { X } from "lucide-react";
 import { Button } from "../Button";
-import { Tooltip } from "../Tooltip";
+
+import React from "react";
 
 interface XIconProps {
   className?: string;
   onClick?: () => void;
 }
 
-export default function XIcon({ className, onClick }: XIconProps) {
-  return (
-    <Tooltip content={"Remove banner"} className="mt-4">
-      <Button className={className} onClick={onClick}>
+const XIcon = React.forwardRef<HTMLButtonElement, XIconProps>(
+  ({ className, onClick }, ref) => {
+    return (
+      <Button className={className} onClick={onClick} ref={ref}>
         <X size={20} />
       </Button>
-    </Tooltip>
-  );
-}
+    );
+  }
+);
+
+XIcon.displayName = "XIcon";
+
+export default XIcon;

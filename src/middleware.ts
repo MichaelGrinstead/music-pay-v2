@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 export default authMiddleware({
   publicRoutes: ["/sign-in", "/sign-up"],
-  afterAuth(auth, req, evt) {
+  afterAuth(auth, req) {
     // Handle users who aren't authenticated
     if (!auth.userId && !auth.isPublicRoute) {
       return redirectToSignIn({ returnBackUrl: req.url });

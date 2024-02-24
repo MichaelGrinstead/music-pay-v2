@@ -1,5 +1,6 @@
 import { Camera } from "lucide-react";
 import { Button } from "../Button";
+import React from "react";
 
 interface CameraIconProps {
   className?: string;
@@ -7,14 +8,15 @@ interface CameraIconProps {
   onClick?: () => void;
 }
 
-export default function CameraIcon({
-  className,
-  size,
-  onClick,
-}: CameraIconProps) {
-  return (
-    <Button className={className} onClick={onClick}>
-      <Camera size={size} />
-    </Button>
-  );
-}
+const CameraIcon = React.forwardRef<HTMLButtonElement, CameraIconProps>(
+  ({ className, size, onClick }, ref) => {
+    return (
+      <Button className={className} onClick={onClick} ref={ref}>
+        <Camera size={size} />
+      </Button>
+    );
+  }
+);
+CameraIcon.displayName = "CameraIcon";
+
+export default CameraIcon;

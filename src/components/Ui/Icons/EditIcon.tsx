@@ -1,19 +1,22 @@
 import { Edit } from "lucide-react";
 import { Button } from "../Button";
+import React from "react";
 
 interface EditIconProps {
   className?: string;
   onClick?: () => void;
 }
 
-export default function EditIcon({
-  className,
+const EditIcon = React.forwardRef<HTMLButtonElement, EditIconProps>(
+  ({ className, onClick }, ref) => {
+    return (
+      <Button className={className} onClick={onClick} ref={ref}>
+        <Edit size={16} />
+      </Button>
+    );
+  }
+);
 
-  onClick,
-}: EditIconProps) {
-  return (
-    <Button className={className} onClick={onClick}>
-      <Edit size={16} />
-    </Button>
-  );
-}
+EditIcon.displayName = "EditIcon";
+
+export default EditIcon;

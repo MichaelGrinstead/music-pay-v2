@@ -14,8 +14,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
 import { useGetUser } from "@/hooks/useGetUser";
+import { useState } from "react";
 
 export default function DashboardDropdown({}) {
+  const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
   const isHome = pathname === "/";
   const { user } = useUser();
@@ -24,7 +26,7 @@ export default function DashboardDropdown({}) {
 
   const dropdown_menu_item = "justify-between hover:bg-zinc-900 gap-3 px-3 ";
   return (
-    <DropdownMenu>
+    <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
       <DropdownMenuTrigger className="focus:outline-none">
         <IoIosArrowDown size={32} />
       </DropdownMenuTrigger>
@@ -37,13 +39,20 @@ export default function DashboardDropdown({}) {
           {!isHome && (
             <DropdownMenuItem className={dropdown_menu_item}>
               <Home className="h-4 w-4 mr-2" />
-              <Link href={"/"}>Home</Link>
+              <Link href={"/"} onClick={() => setIsOpen(!isOpen)}>
+                Home
+              </Link>
             </DropdownMenuItem>
           )}
 
           <DropdownMenuItem className={dropdown_menu_item}>
             <User className="h-4 w-4 mr-2" />
-            <Link href={`/profile/${username}`}>Profile</Link>
+            <Link
+              href={`/profile/${username}`}
+              onClick={() => setIsOpen(!isOpen)}
+            >
+              Profile
+            </Link>
           </DropdownMenuItem>
 
           <DropdownMenuItem className={dropdown_menu_item}>

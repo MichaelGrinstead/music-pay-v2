@@ -5,6 +5,7 @@ import { useFormContext } from "react-hook-form";
 import { UserData } from "@/types";
 import XIcon from "../Ui/Icons/XIcon";
 import { useGetUser } from "@/hooks/useGetUser";
+import { Tooltip } from "../Ui/Tooltip";
 
 interface EditProfileBannerProps {
   username?: string;
@@ -32,10 +33,12 @@ export function EditProfileBanner({
         className_tooltip="mt-2"
       />
       {bannerImage && (
-        <XIcon
-          className="flex flex-col items-center justify-center w-12 h-12 border border-zinc-700 rounded-full hover:bg-zinc-800 bg-zinc-950 cursor-pointer  opacity-90"
-          onClick={() => setValue("bannerImage", "")}
-        />
+        <Tooltip content="Remove banner">
+          <XIcon
+            className="flex flex-col items-center justify-center w-12 h-12 border border-zinc-700 rounded-full hover:bg-zinc-800 bg-zinc-950 cursor-pointer  opacity-90"
+            onClick={() => setValue("bannerImage", "")}
+          />
+        </Tooltip>
       )}
     </div>
   );

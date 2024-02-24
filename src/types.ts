@@ -5,3 +5,10 @@ export interface UserData {
   avatarImage: string;
   bannerImage: string;
 }
+
+export interface ClerkError {
+  errors: {
+    message?: string;
+    longMessage?: string;
+  }[];
+}

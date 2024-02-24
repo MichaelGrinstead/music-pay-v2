@@ -3,20 +3,52 @@
 import { Button } from "./Ui/Button";
 import { Input } from "./Ui/Input";
 import { useForm, FormProvider } from "react-hook-form";
-import { useSignIn } from "@clerk/nextjs";
+import { useSignIn, useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { LoadingSpinner } from "./Ui/LoadingSpinner";
 import PasswordInput from "./Ui/PasswordInput";
+import { ClerkError } from "@/types";
+import { useToast } from "../hooks/useToast";
+import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+interface SignInData {
+  email: string;
+  password: string;
+}
+
+const defaultValues: SignInData = {
+  email: "",
+  password: "",
+};
+
+const SignInDataSchema = z.object({
+  email: z.string().min(1, { message: "Email is required" }),
+  password: z.string().min(1, { message: "Password is required" }),
+});
 
 export default function SignInForm() {
   const router = useRouter();
-  const methods = useForm();
-  const { register, handleSubmit, getValues } = methods;
+  const methods = useForm({
+    defaultValues,
+    resolver: zodResolver(SignInDataSchema),
+  });
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    formState: { errors },
+    clearErrors,
+    reset,
+  } = methods;
   const { signIn, setActive } = useSignIn();
+  const { isSignedIn } = useUser();
   const [isShowPassword, setIsShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  const { toast } = useToast();
 
   const handleSignIn = async () => {
     setIsLoading(true);
@@ -37,12 +69,26 @@ export default function SignInForm() {
           await setActive({ session: completeSignIn.createdSessionId });
           router.push("/");
           setIsLoading(false);
+          reset(defaultValues);
         }
       }
-    } catch (e) {
+    } catch (e: unknown) {
       console.error(JSON.stringify(e, null, 2));
+
+      const error = e as ClerkError;
+      toast({
+        title: "Sign In Error",
+        description: error.errors[0]?.message,
+      });
+      setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (isSignedIn) {
+      router.push("/");
+    }
+  }, [isSignedIn]);
 
   return (
     <FormProvider {...methods}>
@@ -51,8 +97,21 @@ export default function SignInForm() {
         className="flex flex-col items-center justify-between p-24 mt-16 gap-8"
       >
         <h3 className="text-3xl">Sign In</h3>
-        <Input {...register("email")} placeholder="Email" />
+        <Input
+          {...register("email")}
+          className={
+            errors.email && "placeholder-white placeholder:font-semibold"
+          }
+          placeholder={errors.email ? errors.email.message : "Email"}
+          onChange={() => clearErrors("email")}
+        />
         <PasswordInput
+          {...register("password")}
+          className={
+            errors.password && "placeholder-white placeholder:font-semibold"
+          }
+          placeholder={errors.password ? errors.password.message : "Password"}
+          onChange={() => clearErrors("password")}
           isShowPassword={isShowPassword}
           setIsShowPassword={setIsShowPassword}
         />

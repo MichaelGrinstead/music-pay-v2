@@ -1,29 +1,32 @@
 import { Dispatch, SetStateAction } from "react";
 import { Input } from "./Input";
 import ShowPassword from "./ShowPassword";
-import { useFormContext } from "react-hook-form";
+import React from "react";
 
-interface PasswordInputProps {
+interface PasswordInputProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {
   isShowPassword: boolean;
   setIsShowPassword: Dispatch<SetStateAction<boolean>>;
 }
 
-export default function PasswordInput({
-  isShowPassword,
-  setIsShowPassword,
-}: PasswordInputProps) {
-  const { register } = useFormContext();
-  return (
-    <div className="flex flex-row relative">
-      <Input
-        {...register("password")}
-        placeholder="Password"
-        type={!isShowPassword ? "password" : "text"}
-      />
-      <ShowPassword
-        isShowPassword={isShowPassword}
-        setIsShowPassword={setIsShowPassword}
-      />
-    </div>
-  );
-}
+const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputProps>(
+  ({ isShowPassword, setIsShowPassword, ...props }, ref) => {
+    return (
+      <div className="flex flex-row relative">
+        <Input
+          type={!isShowPassword ? "password" : "text"}
+          {...props}
+          ref={ref}
+        />
+        <ShowPassword
+          isShowPassword={isShowPassword}
+          setIsShowPassword={setIsShowPassword}
+        />
+      </div>
+    );
+  }
+);
+
+PasswordInput.displayName = "PasswordInput";
+
+export default PasswordInput;

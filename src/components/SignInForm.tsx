@@ -13,6 +13,7 @@ import { ClerkError } from "@/types";
 import { useToast } from "../hooks/useToast";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { usePathname } from "next/navigation";
 
 interface SignInData {
   email: string;
@@ -49,6 +50,10 @@ export default function SignInForm() {
   const [isLoading, setIsLoading] = useState(false);
 
   const { toast } = useToast();
+
+  const pathname = usePathname();
+  console.log("sign in form", pathname);
+  console.log("sign in form", isSignedIn);
 
   const handleSignIn = async () => {
     setIsLoading(true);

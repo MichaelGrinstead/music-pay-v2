@@ -24,6 +24,8 @@ export default function DashboardDropdown({}) {
   const { username, usernameLowercase } = useGetUser();
   const name = user?.username === usernameLowercase ? username : "";
 
+  console.log("dashboard dropdown", pathname);
+
   const dropdown_menu_item = "justify-between hover:bg-zinc-900 gap-3 px-3 ";
   return (
     <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>

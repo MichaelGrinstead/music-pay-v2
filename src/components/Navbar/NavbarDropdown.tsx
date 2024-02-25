@@ -1,4 +1,4 @@
-import SignOut from "./SignOut";
+import SignOut from "../Auth/SignOut";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,7 +7,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuItem,
   DropdownMenuGroup,
-} from "./Ui/DropdownMenu";
+} from "../Ui/DropdownMenu";
 import { IoIosArrowDown } from "react-icons/io";
 import { LogOut, User, Home } from "lucide-react";
 import Link from "next/link";
@@ -19,7 +19,7 @@ import { useState } from "react";
 export default function DashboardDropdown({}) {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
-  const isHome = pathname === "/";
+  const isDashboard = pathname === "/dashboard";
   const { user } = useUser();
   const { username, usernameLowercase } = useGetUser();
   const name = user?.username === usernameLowercase ? username : "";
@@ -38,11 +38,11 @@ export default function DashboardDropdown({}) {
         </DropdownMenuLabel>
         <DropdownMenuSeparator className="bg-zinc-800 w-full" />
         <DropdownMenuGroup className="w-full">
-          {!isHome && (
+          {!isDashboard && (
             <DropdownMenuItem className={dropdown_menu_item}>
               <Home className="h-4 w-4 mr-2" />
-              <Link href={"/"} onClick={() => setIsOpen(!isOpen)}>
-                Home
+              <Link href={"/dashboard"} onClick={() => setIsOpen(!isOpen)}>
+                Dashboard
               </Link>
             </DropdownMenuItem>
           )}

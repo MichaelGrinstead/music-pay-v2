@@ -9,9 +9,15 @@ import {
   ToastViewport,
 } from "@/components/Ui/Toast";
 import { useToast } from "@/hooks/useToast";
+import { useHydratedState } from "@/hooks/useHydratedState";
 
 export function Toaster() {
   const { toasts } = useToast();
+  const hydrated = useHydratedState();
+
+  if (!hydrated) {
+    return null;
+  }
 
   return (
     <ToastProvider>

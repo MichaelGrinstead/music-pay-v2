@@ -1,16 +1,16 @@
 "use client";
 
-import { Button } from "./Ui/Button";
-import { Input } from "./Ui/Input";
+import { Button } from "../Ui/Button";
+import { Input } from "../Ui/Input";
 import { useForm, FormProvider } from "react-hook-form";
 import { useSignIn, useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { LoadingSpinner } from "./Ui/LoadingSpinner";
-import PasswordInput from "./Ui/PasswordInput";
+import { LoadingSpinner } from "../Ui/LoadingSpinner";
+import PasswordInput from "../Ui/PasswordInput";
 import { ClerkError } from "@/types";
-import { useToast } from "../hooks/useToast";
+import { useToast } from "../../hooks/useToast";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { usePathname } from "next/navigation";
@@ -72,7 +72,7 @@ export default function SignInForm() {
       if (completeSignIn?.status === "complete") {
         if (setActive) {
           await setActive({ session: completeSignIn.createdSessionId });
-          router.push("/");
+          router.push("/dashboard");
           setIsLoading(false);
           reset(defaultValues);
         }
@@ -91,7 +91,7 @@ export default function SignInForm() {
 
   useEffect(() => {
     if (isSignedIn) {
-      router.push("/");
+      router.push("/dashboard");
     }
   }, [isSignedIn]);
 
@@ -99,7 +99,7 @@ export default function SignInForm() {
     <FormProvider {...methods}>
       <form
         onSubmit={handleSubmit(handleSignIn)}
-        className="flex flex-col items-center justify-between p-24 mt-16 gap-8"
+        className="flex flex-col items-center justify-between p-24 mt-32 gap-8"
       >
         <h3 className="text-3xl">Sign In</h3>
         <Input

@@ -1,4 +1,4 @@
-export default function Home() {
+export default function Dashboard() {
   return (
     <main>
       <div className="flex flex-col items-center justify-between p-24 mt-40">

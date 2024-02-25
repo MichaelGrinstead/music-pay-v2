@@ -1,15 +1,15 @@
 "use client";
 
-import { Button } from "./Ui/Button";
-import { Input } from "./Ui/Input";
+import { Button } from "../Ui/Button";
+import { Input } from "../Ui/Input";
 import { useForm, FormProvider } from "react-hook-form";
 import { useSignUp, useUser } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { addNewUser } from "@/utils/addNewUser";
-import PasswordInput from "./Ui/PasswordInput";
-import { LoadingSpinner } from "./Ui/LoadingSpinner";
+import PasswordInput from "../Ui/PasswordInput";
+import { LoadingSpinner } from "../Ui/LoadingSpinner";
 import { ClerkError } from "@/types";
 import { useToast } from "@/hooks/useToast";
 import * as z from "zod";
@@ -115,7 +115,7 @@ export default function SignUpForm() {
           addNewUser(signUpData.username);
           setIsLoading(false);
           reset(defaultValues);
-          router.push("/");
+          router.push("/dashboard");
         }
       }
     } catch (e) {
@@ -132,7 +132,7 @@ export default function SignUpForm() {
 
   useEffect(() => {
     if (isSignedIn) {
-      router.push("/");
+      router.push("/dashboard");
     }
   }, [isSignedIn]);
 
@@ -141,7 +141,7 @@ export default function SignUpForm() {
       {isVerifying ? (
         <form
           onSubmit={handleSubmit(handleVerify)}
-          className="flex flex-col items-center justify-between p-24 mt-16 gap-8"
+          className="flex flex-col items-center justify-between p-24 mt-28 gap-8"
         >
           <h3 className="text-3xl">Verification Code</h3>
           <Input
@@ -160,7 +160,7 @@ export default function SignUpForm() {
       ) : (
         <form
           onSubmit={handleSubmit(handleSignUp)}
-          className="flex flex-col items-center justify-between p-24 mt-16 gap-8"
+          className="flex flex-col items-center justify-between p-24 mt-32 gap-8"
         >
           <h3 className="text-3xl">Sign Up</h3>
           <Input

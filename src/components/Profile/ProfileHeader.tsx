@@ -12,11 +12,13 @@ interface ProfileHeaderProps {
   isOwnProfile?: boolean;
   updateProfile?: () => void;
   isEditMode: boolean;
+  isUserDataLoading: boolean;
 }
 
 export default function ProfileHeader({
   isOwnProfile,
   isEditMode,
+  isUserDataLoading,
 }: ProfileHeaderProps) {
   const { setValue, getValues } = useFormContext();
   const profileData = getValues();
@@ -56,8 +58,10 @@ export default function ProfileHeader({
         />
       )}
 
-      {!banner ? (
+      {isUserDataLoading ? (
         <Skeleton className="w-full h-full bg-zinc-950" />
+      ) : !banner ? (
+        <div className="w-full h-full bg-zinc-950"></div>
       ) : (
         <div className="w-full h-full">
           <Image
@@ -79,8 +83,12 @@ export default function ProfileHeader({
         )}
 
         <div className="flex justify-center items-center w-[250px] h-[250px] rounded-full bg-zinc-900">
-          {!avatar ? (
+          {isUserDataLoading ? (
             <Skeleton className="w-full h-full rounded-full bg-zinc-950" />
+          ) : !avatar ? (
+            <div className="flex flex-col items-center justify-center w-full h-full rounded-full bg-zinc-950 text-md text-zinc-500">
+              {!isEditMode && "No image set"}
+            </div>
           ) : (
             <Image
               className="rounded-full object-cover"

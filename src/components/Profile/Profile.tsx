@@ -15,7 +15,7 @@ interface ProfileProps {
 
 export default function Profile({ username }: ProfileProps) {
   const [isEditMode, setIsEditMode] = useState(false);
-  const userData = useGetUser(username);
+  const { userData, isUserDataLoading } = useGetUser(username);
 
   const defaultValues = useMemo(() => {
     return userData
@@ -73,12 +73,14 @@ export default function Profile({ username }: ProfileProps) {
           isOwnProfile={isOwnProfile}
           updateProfile={updateProfile}
           isEditMode={isEditMode}
+          isUserDataLoading={isUserDataLoading}
         />
         <ProfileContent
           username={username}
           isOwnProfile={isOwnProfile}
           updateProfile={updateProfile}
           isEditMode={isEditMode}
+          isUserDataLoading={isUserDataLoading}
         />
       </div>
     </FormProvider>

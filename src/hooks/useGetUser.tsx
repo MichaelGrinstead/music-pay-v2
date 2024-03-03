@@ -9,13 +9,17 @@ const defaultUserData: UserData = {
   bannerImage: "",
 };
 
-export const useGetUser = (username?: string): UserData => {
+export const useGetUser = (
+  username?: string
+): { userData: UserData; isUserDataLoading: boolean } => {
   const [userData, setUserData] = useState(defaultUserData);
+  const [isUserDataLoading, setIsUserDataLoading] = useState(true);
 
   const route = username ? `/api/user?username=${username}` : "/api/user";
 
   useEffect(() => {
     const getUser = async () => {
+      setIsUserDataLoading(true);
       try {
         const response = await fetch(route, {
           method: "GET",
@@ -37,6 +41,7 @@ export const useGetUser = (username?: string): UserData => {
           data.bannerImage !== userData.bannerImage
         ) {
           setUserData(data);
+          setIsUserDataLoading(false);
         }
       } catch (e) {
         console.error(e);
@@ -48,11 +53,14 @@ export const useGetUser = (username?: string): UserData => {
 
   return useMemo(() => {
     return {
-      username: userData.username || "",
-      usernameLowercase: userData.usernameLowercase || "",
-      about: userData.about || "",
-      avatarImage: userData.avatarImage || "",
-      bannerImage: userData.bannerImage || "",
+      userData: {
+        username: userData.username || "",
+        usernameLowercase: userData.usernameLowercase || "",
+        about: userData.about || "",
+        avatarImage: userData.avatarImage || "",
+        bannerImage: userData.bannerImage || "",
+      },
+      isUserDataLoading,
     };
   }, [userData]);
 };

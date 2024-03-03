@@ -22,11 +22,12 @@ export function EditProfileBanner({
   isUploadingBanner,
 }: EditProfileBannerProps) {
   const { setValue } = useFormContext();
-  const { bannerImage } = useGetUser(username);
+  const { userData } = useGetUser(username);
+  const { bannerImage } = userData;
   return (
-    <div className="z-10 flex flex-row items-center justify-center gap-2 mt-4">
+    <div className="absolute top-4 z-10 flex flex-row items-center justify-center gap-2">
       <Uploader
-        className="flex flex-col items-center justify-center w-12 h-12 border border-zinc-700 rounded-full hover:bg-zinc-800 bg-zinc-950 cursor-pointer  opacity-90"
+        className="flex flex-col items-center justify-center w-12 h-12 bg-zinc-800  rounded-full hover:bg-zinc-800 bg-zinc-950 cursor-pointer  opacity-90"
         uploadFunction={(e) => handleUploadImage(e, "bannerImage")}
         loadingState={isUploadingBanner}
         tooltipContent="Add banner"
@@ -35,7 +36,7 @@ export function EditProfileBanner({
       {bannerImage && (
         <Tooltip content="Remove banner">
           <XIcon
-            className="flex flex-col items-center justify-center w-12 h-12 border border-zinc-700 rounded-full hover:bg-zinc-800 bg-zinc-950 cursor-pointer  opacity-90"
+            className="flex flex-col items-center justify-center w-12 h-12  rounded-full hover:bg-zinc-800 bg-zinc-950 cursor-pointer  opacity-90"
             onClick={() => setValue("bannerImage", "")}
           />
         </Tooltip>
@@ -70,9 +71,13 @@ export function EditProfileAvatar({
 export function EditProfileAbout() {
   const { register } = useFormContext<UserData>();
   return (
-    <Textarea
-      {...register("about")}
-      className="h-[220px] w-full text-md py-0 px-2 mx-12 border-zinc-800 bg-zinc-950 rounded-md focus:outline-none focus:ring-0 focus:border-none"
-    ></Textarea>
+    <div className="relative h-[220px] w-full border-zinc-800 bg-zinc-950">
+      <h6 className="absolute top-2 left-4 text-md text-zinc-600">About</h6>
+      <Textarea
+        {...register("about")}
+        className="h-full w-full text-lg px-4 py-8 rounded-md placeholder:text-zinc-500"
+        placeholder="Enter an about me here..."
+      ></Textarea>
+    </div>
   );
 }

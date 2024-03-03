@@ -26,6 +26,9 @@ const SignUpDataSchema = z.object({
   username: z.string().min(1, { message: "Username is required" }),
   email: z.string().min(1, { message: "Email is required" }),
   password: z.string().min(1, { message: "Password is required" }),
+});
+
+const CodeSchema = z.object({
   code: z.string().min(1, { message: "Code is required" }),
 });
 
@@ -38,10 +41,14 @@ const defaultValues: SignUpData = {
 
 export default function SignUpForm() {
   const router = useRouter();
+
+  const [isVerifying, setIsVerifying] = useState(false);
+
   const methods = useForm({
     defaultValues,
-    resolver: zodResolver(SignUpDataSchema),
+    resolver: zodResolver(isVerifying ? CodeSchema : SignUpDataSchema),
   });
+
   const {
     register,
     handleSubmit,
@@ -49,10 +56,11 @@ export default function SignUpForm() {
     formState: { errors },
     clearErrors,
     reset,
+    watch,
   } = methods;
+
   const { signUp, setActive } = useSignUp();
   const { isSignedIn } = useUser();
-  const [isVerifying, setIsVerifying] = useState(false);
   const [isShowPassword, setIsShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -141,7 +149,7 @@ export default function SignUpForm() {
       {isVerifying ? (
         <form
           onSubmit={handleSubmit(handleVerify)}
-          className="flex flex-col items-center justify-between p-24 mt-28 gap-8"
+          className="flex flex-col items-center justify-between p-24 mt-32 gap-8"
         >
           <h3 className="text-3xl">Verification Code</h3>
           <Input

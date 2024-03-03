@@ -21,7 +21,8 @@ export default function DashboardDropdown({}) {
   const pathname = usePathname();
   const isDashboard = pathname === "/dashboard";
   const { user } = useUser();
-  const { username, usernameLowercase } = useGetUser();
+  const { userData } = useGetUser();
+  const { username, usernameLowercase } = userData;
   const name = user?.username === usernameLowercase ? username : "";
 
   console.log("dashboard dropdown", pathname);

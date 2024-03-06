@@ -7,7 +7,7 @@ import { useSignUp, useUser } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { addNewUser } from "@/utils/addNewUser";
+import { useAddNewUser } from "@/hooks/useAddNewUser";
 import PasswordInput from "../Ui/PasswordInput";
 import { LoadingSpinner } from "../Ui/LoadingSpinner";
 import { ClerkError } from "@/types";
@@ -65,6 +65,7 @@ export default function SignUpForm() {
   const [isLoading, setIsLoading] = useState(false);
 
   const { toast } = useToast();
+  const { addNewUser } = useAddNewUser();
 
   const handleSignUp = async () => {
     const signUpData = getValues();
@@ -120,7 +121,7 @@ export default function SignUpForm() {
       if (completeSignUp?.status === "complete") {
         if (setActive) {
           await setActive({ session: completeSignUp.createdSessionId });
-          addNewUser(signUpData.username);
+          await addNewUser(signUpData.username);
           setIsLoading(false);
           reset(defaultValues);
           router.push("/dashboard");

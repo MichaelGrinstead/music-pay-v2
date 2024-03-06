@@ -8,7 +8,6 @@ import { useFormContext } from "react-hook-form";
 import { Skeleton } from "../Ui/Skeleton";
 
 interface ProfileHeaderProps {
-  username: string;
   isOwnProfile?: boolean;
   updateProfile?: () => void;
   isEditMode: boolean;

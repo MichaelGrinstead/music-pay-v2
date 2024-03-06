@@ -4,7 +4,7 @@ import ProfileContent from "./ProfileContent";
 import ProfileHeader from "./ProfileHeader";
 import { FormProvider, useForm } from "react-hook-form";
 import { UserData } from "@/types";
-import { updateUserData } from "@/utils/updateUserData";
+import { useUpdateUser } from "@/hooks/useUpdateUser";
 import { useGetUser } from "@/hooks/useGetUser";
 import { useEffect, useMemo, useState } from "react";
 import { Button } from "../Ui/Button";
@@ -13,9 +13,11 @@ interface ProfileProps {
   username: string;
 }
 
-export default function Profile({ username }: ProfileProps) {
+export default function UserProfile({ username }: ProfileProps) {
   const [isEditMode, setIsEditMode] = useState(false);
   const { userData, isUserDataLoading } = useGetUser(username);
+
+  const { updateUserData } = useUpdateUser();
 
   const defaultValues = useMemo(() => {
     return userData
@@ -39,7 +41,7 @@ export default function Profile({ username }: ProfileProps) {
   const updateProfile = async () => {
     const data = getValues();
 
-    updateUserData(data);
+    await updateUserData(data);
   };
 
   useEffect(() => {
@@ -69,14 +71,13 @@ export default function Profile({ username }: ProfileProps) {
             </Button>
           ))}
         <ProfileHeader
-          username={username}
           isOwnProfile={isOwnProfile}
           updateProfile={updateProfile}
           isEditMode={isEditMode}
           isUserDataLoading={isUserDataLoading}
         />
         <ProfileContent
-          username={username}
+          name={userData.username}
           isOwnProfile={isOwnProfile}
           updateProfile={updateProfile}
           isEditMode={isEditMode}

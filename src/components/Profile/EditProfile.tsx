@@ -75,7 +75,7 @@ export function EditProfileAbout() {
       <h6 className="absolute top-2 left-4 text-md text-zinc-600">About</h6>
       <Textarea
         {...register("about")}
-        className="h-full w-full text-lg px-4 py-8 rounded-md placeholder:text-zinc-500"
+        className="h-full w-full text-lg px-4 py-8 rounded-md placeholder:text-zinc-500 bg-zinc-950"
         placeholder="Enter an about me here..."
       ></Textarea>
     </div>

@@ -4,7 +4,7 @@ import { EditProfileAbout } from "./EditProfile";
 import { useFormContext } from "react-hook-form";
 
 interface ProfileContentProps {
-  username: string;
+  name: string;
   isOwnProfile?: boolean;
   updateProfile: () => void;
   isEditMode: boolean;
@@ -12,7 +12,7 @@ interface ProfileContentProps {
 }
 
 export default function ProfileContent({
-  username,
+  name,
   isOwnProfile,
   isEditMode,
   isUserDataLoading,
@@ -23,10 +23,10 @@ export default function ProfileContent({
   return (
     <div className="relative flex flex-col items-center justify-between p-16 gap-6">
       <h3 className="h-12 pt-1 pb-1 text-4xl font-semibold w-60 text-center">
-        {username}
+        {name}
       </h3>
 
-      <div className="relative h-[220px] w-full flex flex-col justify-center items-center bg-zinc-950 rounded-md">
+      <div className="relative h-[220px] w-full flex flex-col justify-center items-center ">
         {isEditMode ? (
           isOwnProfile && <EditProfileAbout />
         ) : (

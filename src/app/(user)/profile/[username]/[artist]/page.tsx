@@ -1,3 +1,3 @@
-export default function Artist() {
-  return <div></div>;
+export default function ArtistPage() {
+  return <div>ArtistPage</div>;
 }

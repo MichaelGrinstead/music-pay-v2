@@ -72,26 +72,37 @@ export default function SignInForm() {
       if (completeSignIn?.status === "complete") {
         if (setActive) {
           await setActive({ session: completeSignIn.createdSessionId });
-          router.push("/dashboard");
+          router.push("/");
           setIsLoading(false);
           reset(defaultValues);
         }
       }
     } catch (e: unknown) {
-      console.error(JSON.stringify(e, null, 2));
-
+      console.error("Error:", JSON.stringify(e, null, 2));
       const error = e as ClerkError;
-      toast({
-        title: "Sign In Error",
-        description: error.errors[0]?.message,
-      });
+      for (let i = 0; i < error.errors.length; i++) {
+        if (error.errors[i]?.message === "Identifier is invalid.") {
+          toast({
+            title: "Sign Up Error",
+            description: "Invalid Email Address",
+          });
+        } else if (
+          error.errors[i]?.message !== "Enter email address." &&
+          error.errors[i]?.message !== "Enter password."
+        ) {
+          toast({
+            title: "Sign Up Error",
+            description: error.errors[i]?.message,
+          });
+        }
+      }
       setIsLoading(false);
     }
   };
 
   useEffect(() => {
     if (isSignedIn) {
-      router.push("/dashboard");
+      router.push("/");
     }
   }, [isSignedIn]);
 

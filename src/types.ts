@@ -6,6 +6,13 @@ export interface UserData {
   bannerImage: string;
 }
 
+export interface ArtistProfileData {
+  name: string;
+  about: string;
+  avatarImage: string;
+  bannerImage: string;
+}
+
 export interface ClerkError {
   errors: {
     message?: string;

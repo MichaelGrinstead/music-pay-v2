@@ -13,30 +13,28 @@ export async function POST(req: NextRequest) {
     });
   const body = await req.json();
 
-  const { name, about, image } = body;
+  const { name, about, avatarImage, bannerImage } = body;
 
   const artistData: {
-    userId?: string;
-    name?: string;
+    userId: string;
+    name: string;
     about?: string;
-    image?: string;
-  } = {};
+    avatarImage?: string;
+    bannerImage?: string;
+  } = { userId: "", name: "" };
 
+  artistData.userId = userId;
   if (name) artistData.name = name;
   if (about) artistData.about = about;
-  if (image) artistData.image = image;
+  if (avatarImage) artistData.avatarImage = avatarImage;
+  if (bannerImage) artistData.bannerImage = bannerImage;
 
   if (Object.keys(artistData).length === 0)
     return new NextResponse(JSON.stringify({ message: "Bad Request" }));
 
   try {
     const artist = await prisma.artist.create({
-      data: {
-        userId: userId as string,
-        name: name,
-        about: about,
-        image: image,
-      },
+      data: artistData,
     });
 
     return new NextResponse(JSON.stringify(artist), { status: 201 });

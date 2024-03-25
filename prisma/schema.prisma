@@ -27,5 +27,6 @@ model Artist {
   id String @id @default(uuid())
   name String
   about String?
-  image String?
+  avatarImage String?
+  bannerImage String?
 }

@@ -72,16 +72,13 @@ export default function UserProfile({ username }: ProfileProps) {
           ))}
         <ProfileHeader
           isOwnProfile={isOwnProfile}
-          updateProfile={updateProfile}
           isEditMode={isEditMode}
           isUserDataLoading={isUserDataLoading}
         />
         <ProfileContent
           name={userData.username}
           isOwnProfile={isOwnProfile}
-          updateProfile={updateProfile}
           isEditMode={isEditMode}
-          isUserDataLoading={isUserDataLoading}
         />
       </div>
     </FormProvider>

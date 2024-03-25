@@ -10,9 +10,19 @@ export const useAddNewUser = () => {
     }
   }
 
-  const { mutateAsync: addNewUser, error: errorAddingNewUser } = useMutation({
+  const {
+    mutateAsync: addNewUser,
+    isPending: isAddNewUserPending,
+    isSuccess: isAddNewUserSuccess,
+    error: errorAddingNewUser,
+  } = useMutation({
     mutationFn: add,
   });
 
-  return { addNewUser, errorAddingNewUser };
+  return {
+    addNewUser,
+    isAddNewUserPending,
+    isAddNewUserSuccess,
+    errorAddingNewUser,
+  };
 };

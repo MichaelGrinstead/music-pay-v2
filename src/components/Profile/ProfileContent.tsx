@@ -4,18 +4,15 @@ import { EditProfileAbout } from "./EditProfile";
 import { useFormContext } from "react-hook-form";
 
 interface ProfileContentProps {
-  name: string;
+  name?: string;
   isOwnProfile?: boolean;
-  updateProfile: () => void;
   isEditMode: boolean;
-  isUserDataLoading: boolean;
 }
 
 export default function ProfileContent({
   name,
   isOwnProfile,
   isEditMode,
-  isUserDataLoading,
 }: ProfileContentProps) {
   const { getValues } = useFormContext();
   const { about } = getValues();

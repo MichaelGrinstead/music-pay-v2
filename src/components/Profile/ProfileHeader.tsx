@@ -9,9 +9,8 @@ import { Skeleton } from "../Ui/Skeleton";
 
 interface ProfileHeaderProps {
   isOwnProfile?: boolean;
-  updateProfile?: () => void;
   isEditMode: boolean;
-  isUserDataLoading: boolean;
+  isUserDataLoading?: boolean;
 }
 
 export default function ProfileHeader({
@@ -29,7 +28,7 @@ export default function ProfileHeader({
 
   const handleUploadImage = async (
     e: SyntheticEvent | ChangeEvent<HTMLInputElement>,
-    type: string
+    type: "bannerImage" | "avatarImage"
   ) => {
     if (type == "bannerImage") {
       setIsUploadingBanner(true);
@@ -66,7 +65,7 @@ export default function ProfileHeader({
           <Image
             className="rounded-md"
             src={banner}
-            alt=""
+            alt="User Banner"
             fill={true}
             objectFit="cover"
           />
@@ -75,10 +74,12 @@ export default function ProfileHeader({
 
       <div className="absolute border border-4 border-black rounded-full mt-48">
         {isEditMode && isOwnProfile && (
-          <EditProfileAvatar
-            handleUploadImage={handleUploadImage}
-            isUploadingAvatar={isUploadingAvatar}
-          />
+          <div className="absolute top-[101px] left-[101px] ">
+            <EditProfileAvatar
+              handleUploadImage={handleUploadImage}
+              isUploadingAvatar={isUploadingAvatar}
+            />
+          </div>
         )}
 
         <div className="flex justify-center items-center w-[250px] h-[250px] rounded-full bg-zinc-900">
@@ -92,7 +93,7 @@ export default function ProfileHeader({
             <Image
               className="rounded-full object-cover"
               src={avatar}
-              alt=""
+              alt="User Avatar"
               fill={true}
             />
           )}

@@ -20,7 +20,7 @@ import { LoadingSpinner } from "../Ui/LoadingSpinner";
 export default function DashboardDropdown({}) {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
-  const isDashboard = pathname === "/dashboard";
+  const isDashboard = pathname === "/";
   const { user } = useUser();
   const { userData, isUserDataLoading } = useGetUser();
   const { username, usernameLowercase } = userData;
@@ -47,7 +47,7 @@ export default function DashboardDropdown({}) {
           {!isDashboard && (
             <DropdownMenuItem className={dropdown_menu_item}>
               <Home className="h-4 w-4 mr-2" />
-              <Link href={"/dashboard"} onClick={() => setIsOpen(!isOpen)}>
+              <Link href={"/"} onClick={() => setIsOpen(!isOpen)}>
                 Dashboard
               </Link>
             </DropdownMenuItem>

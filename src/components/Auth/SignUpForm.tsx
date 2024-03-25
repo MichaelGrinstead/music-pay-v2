@@ -56,7 +56,6 @@ export default function SignUpForm() {
     formState: { errors },
     clearErrors,
     reset,
-    watch,
   } = methods;
 
   const { signUp, setActive } = useSignUp();
@@ -124,7 +123,7 @@ export default function SignUpForm() {
           await addNewUser(signUpData.username);
           setIsLoading(false);
           reset(defaultValues);
-          router.push("/dashboard");
+          router.push("/");
         }
       }
     } catch (e) {
@@ -141,7 +140,7 @@ export default function SignUpForm() {
 
   useEffect(() => {
     if (isSignedIn) {
-      router.push("/dashboard");
+      router.push("/");
     }
   }, [isSignedIn]);
 

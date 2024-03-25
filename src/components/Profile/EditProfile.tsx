@@ -2,7 +2,7 @@ import { ChangeEvent, SyntheticEvent } from "react";
 import Uploader from "../Ui/Uploader";
 import { Textarea } from "../Ui/Textarea";
 import { useFormContext } from "react-hook-form";
-import { UserData } from "@/types";
+import { ArtistProfileData, UserData } from "@/types";
 import XIcon from "../Ui/Icons/XIcon";
 import { useGetUser } from "@/hooks/useGetUser";
 import { Tooltip } from "../Ui/Tooltip";
@@ -11,7 +11,7 @@ interface EditProfileBannerProps {
   username?: string;
   handleUploadImage: (
     e: SyntheticEvent | ChangeEvent<HTMLInputElement>,
-    type: string
+    type: "bannerImage" | "avatarImage"
   ) => Promise<void>;
   isUploadingBanner: boolean;
 }
@@ -36,7 +36,7 @@ export function EditProfileBanner({
       {bannerImage && (
         <Tooltip content="Remove banner">
           <XIcon
-            className="flex flex-col items-center justify-center w-12 h-12  rounded-full hover:bg-zinc-800 bg-zinc-950 cursor-pointer  opacity-90"
+            className="flex flex-col items-center justify-center border-none w-12 h-12  rounded-full hover:bg-zinc-800 bg-zinc-950 cursor-pointer  opacity-90"
             onClick={() => setValue("bannerImage", "")}
           />
         </Tooltip>
@@ -48,7 +48,7 @@ export function EditProfileBanner({
 interface EditProfileAvatarProps {
   handleUploadImage: (
     e: SyntheticEvent | ChangeEvent<HTMLInputElement>,
-    type: string
+    type: "bannerImage" | "avatarImage"
   ) => Promise<void>;
   isUploadingAvatar: boolean;
 }
@@ -59,7 +59,7 @@ export function EditProfileAvatar({
 }: EditProfileAvatarProps) {
   return (
     <Uploader
-      className="absolute top-[101px] left-[101px] flex flex-col items-center justify-center w-12 h-12 rounded-full hover:bg-zinc-800 bg-zinc-950 cursor-pointer z-10 opacity-90"
+      className="flex flex-col items-center justify-center w-12 h-12 rounded-full hover:bg-zinc-800 bg-zinc-950 cursor-pointer z-10 opacity-90"
       uploadFunction={(e) => handleUploadImage(e, "avatarImage")}
       loadingState={isUploadingAvatar}
       tooltipContent="Add image"
@@ -69,14 +69,14 @@ export function EditProfileAvatar({
 }
 
 export function EditProfileAbout() {
-  const { register } = useFormContext<UserData>();
+  const { register } = useFormContext<UserData | ArtistProfileData>();
   return (
-    <div className="relative h-[220px] w-full border-zinc-800 bg-zinc-950">
-      <h6 className="absolute top-2 left-4 text-md text-zinc-600">About</h6>
+    <div className="relative h-[220px] w-full  rounded-md">
+      <h6 className="absolute top-2 left-4 text-sm text-zinc-600">About</h6>
       <Textarea
         {...register("about")}
-        className="h-full w-full text-lg px-4 py-8 rounded-md placeholder:text-zinc-500 bg-zinc-950"
-        placeholder="Enter an about me here..."
+        className="h-full w-full text-lg px-4 py-8 rounded-md placeholder:text-zinc-600 bg-zinc-900 border-none resize-none overflow-auto dark:[color-scheme:dark]"
+        placeholder="Enter Bio..."
       ></Textarea>
     </div>
   );
